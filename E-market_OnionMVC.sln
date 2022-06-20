@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-market_OnionMVC", "E-market_OnionMVC\E-market_OnionMVC.csproj", "{ACB327D0-F830-47F1-BB9C-71E690DD7436}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.E-market", "E-market_OnionMVC\WebApp.E-market.csproj", "{ACB327D0-F830-47F1-BB9C-71E690DD7436}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{C3C1E17F-E6BF-413C-96A5-B61A65B1EED6}"
 EndProject
