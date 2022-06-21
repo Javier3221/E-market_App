@@ -1,8 +1,40 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Main Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="nav-scroller bg-body shadow-sm mb-4">
+    <nav class="nav" aria-label="Secondary navigation">
+        <h5 class="navbar-text me-2">Filter by Category: </h5>
+        @for (int i = 0; i <= 10; i++)
+        {
+            <div class="form-check-inline">
+                <input class="form-check-input" type="checkbox" value="@i" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    checkbox #@i
+                </label>
+            </div>
+        }
+        <button class="btn btn-outline-primary ms-auto">Search</button>
+    </nav>
+</div>
+
+<div class="d-flex justify-content-lg-start gap-5">
+    <div class="row">
+        @for (int i = 0; i <= 4; i++)
+        {
+            <div class="col-sm-4">
+                <div class="card mb-2">
+                    <img src="/fruit-shop.png" class="card-img-top" width="300" height="250" alt="..." />
+                    <div class="card-body">
+                        <h5 class="card-title">Article Title</h5>
+                        <p class="card-text">This is this product's description</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="fw-bold list-group-item">RD$ Price</li>
+                            <li class="list-group-item text-info fw-bold">Category</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
