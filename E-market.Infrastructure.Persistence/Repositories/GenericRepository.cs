@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_market.Core.Application.Interfaces.Repositories;
 using E_market.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_market.Infrastructure.Persistence.Repositories
 {
-    public class GenericRepository<Entity> where Entity : class
+    public class GenericRepository<Entity> : IGenericRepositoryAsync<Entity> where Entity : class
     {
         private readonly ApplicationContext _dbContext;
 
