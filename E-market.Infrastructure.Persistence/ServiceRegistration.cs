@@ -1,4 +1,4 @@
-﻿using E_market.Core.Application.Interfaces;
+﻿using E_market.Core.Application.Interfaces.Repositories;
 using E_market.Infrastructure.Persistence.Contexts;
 using E_market.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +26,10 @@ namespace E_market.Infrastructure.Persistence
             #endregion
 
             #region Repositories
+            services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepository<>));
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IArticleRepository, ArticleRepository>();
             #endregion
         }
     }
