@@ -1,4 +1,5 @@
 using E_market.Infrastructure.Persistence;
+using E_market.Core.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ namespace E_market_OnionMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPersistenceInfrastructure(Configuration);
+            services.AddApplicationLayer(Configuration);
 
             services.AddControllersWithViews();
         }
