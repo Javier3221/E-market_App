@@ -1,4 +1,5 @@
-﻿using E_market_OnionMVC.Models;
+﻿using E_market.Core.Application.Interfaces.Services;
+using E_market_OnionMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,16 +12,16 @@ namespace E_market_OnionMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IArticleService _articleService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IArticleService articleService)
         {
-            _logger = logger;
+            _articleService = articleService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _articleService.GetAllViewModel());
         }
 
         public IActionResult Privacy()
