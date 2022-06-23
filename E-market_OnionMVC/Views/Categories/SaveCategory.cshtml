@@ -1,0 +1,37 @@
+﻿@model E_market.Core.Application.ViewModels.Categories.CategoryViewModel;
+@{
+    bool isEdit = Model.Id == 0 ? false : true;
+    ViewData["Title"] = "Save Category";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h2>@(isEdit ? $"Update '{Model.Name}' category information" : "Create new Category")</h2>
+                </div>
+
+                <div class="card-body">
+                    <form method="post" asp-controller="Categories" asp-action="@(isEdit ? "Update" : "Create")">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Name:</label>
+                            <input type="text" asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Description:</label>
+                            <textarea type="text" asp-for="Description" class="form-control"> </textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <input type="hidden" asp-for="Id" />
+
+                        <button type="submit" class="btn btn-outline-primary">Save</button>
+                        <a asp-controller="Categories" asp-action="CategoryList" class="btn btn-outline-danger">Go back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
