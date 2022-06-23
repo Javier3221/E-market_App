@@ -49,9 +49,9 @@ namespace E_market.Core.Application.Services
             var category = await _categoryRepository.GetByIdAsync(id);
 
             CategoryViewModel vm = new();
-            category.Id = vm.Id;
-            category.Name = vm.Name;
-            category.Description = vm.Description;
+            vm.Id = category.Id;
+            vm.Name = category.Name;
+            vm.Description = category.Description;
 
             return vm;
         }
