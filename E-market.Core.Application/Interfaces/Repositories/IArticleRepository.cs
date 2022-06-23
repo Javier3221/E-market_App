@@ -9,5 +9,6 @@ namespace E_market.Core.Application.Interfaces.Repositories
 {
     public interface IArticleRepository : IGenericRepositoryAsync<Article>
     {
+        Task<List<Article>> GetAllByCategory(int categoryId);
     }
 }

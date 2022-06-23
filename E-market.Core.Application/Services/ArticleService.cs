@@ -83,5 +83,21 @@ namespace E_market.Core.Application.Services
                 //Category =
             }).ToList(); 
         }
+
+        public async Task<List<GetArticleViewModel>> GetAllViewModelByCategory(int categoryId)
+        {
+            var articleList = await _articleRepository.GetAllByCategory(categoryId);
+
+            return articleList.Select(article => new GetArticleViewModel
+            {
+                Name = article.Name,
+                ImgUrl = article.ImgUrl,
+                Id = article.Id,
+                Price = article.Price,
+                //UserName =
+                Description = article.Description,
+                Category =  article.Category.Name
+            }).ToList();
+        }
     }
 }
