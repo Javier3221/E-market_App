@@ -70,7 +70,7 @@ namespace E_market.Core.Application.Services
 
         public async Task<List<GetArticleViewModel>> GetAllViewModel()
         {
-            var articleList = await _articleRepository.GetAllAsync();
+            var articleList = await _articleRepository.GetAllWithIncludeAsync(new List<string> { "Category" });
 
             return articleList.Select(article => new GetArticleViewModel 
             {
@@ -80,7 +80,7 @@ namespace E_market.Core.Application.Services
                 Price = article.Price,
                 //UserName =
                 Description = article.Description,
-                //Category =
+                Category = article.Category.Name
             }).ToList(); 
         }
 

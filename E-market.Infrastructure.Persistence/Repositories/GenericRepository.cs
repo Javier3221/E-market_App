@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using E_market.Core.Application.Interfaces.Repositories;
 using E_market.Infrastructure.Persistence.Contexts;
@@ -39,6 +36,18 @@ namespace E_market.Infrastructure.Persistence.Repositories
         public async Task<List<Entity>> GetAllAsync()
         {
             return await _dbContext.Set<Entity>().ToListAsync();
+        }
+
+        public async Task<List<Entity>> GetAllWithIncludeAsync(List<string> properties)
+        {
+            var query = _dbContext.Set<Entity>().AsQueryable();
+
+            foreach (string property in properties)
+            {
+                query = query.Include(property);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<Entity> GetByIdAsync(int id)

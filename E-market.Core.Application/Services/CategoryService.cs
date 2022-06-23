@@ -58,13 +58,14 @@ namespace E_market.Core.Application.Services
 
         public async Task<List<CategoryViewModel>> GetAllViewModel()
         {
-            var categoryList = await _categoryRepository.GetAllAsync();
+            var categoryList = await _categoryRepository.GetAllWithIncludeAsync(new List<string> {"Articles"});
 
             return categoryList.Select(category => new CategoryViewModel
             {
                 Name = category.Name,
                 Id = category.Id,
                 Description = category.Description,
+                ArticleCount = category.Articles.Count()
             }).ToList();
         }
     }
