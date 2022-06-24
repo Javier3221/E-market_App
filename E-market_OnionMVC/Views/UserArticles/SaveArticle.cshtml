@@ -1,0 +1,65 @@
+﻿@model E_market.Core.Application.ViewModels.Articles.SaveArticleViewModel 
+@{
+    ViewData["Title"] = "Save Article";
+    bool isEdit = Model.Id == 0 ? false : true;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h2>@(isEdit ? $"Update Article information" : "Create new article")</h2>
+                </div>
+
+                <div class="card-body">
+                    @if (Model.Categories == null || Model.Categories.Count == 0)
+                    {
+                        <h4 class="fw-bold">You need to create at leasat one category first</h4>
+                    }
+                    else
+                    {
+                        <form method="post" asp-controller="UserArticles" asp-action="@(isEdit ? "Update" : "Create")">
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label">Name:</label>
+                                <input type="text" asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Description" class="form-label">Description:</label>
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ImgUrl" class="form-label">Image:</label>
+                                <input type="text" asp-for="ImgUrl" class="form-control" placeholder="https://examplePage/example.jpg" />
+                                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Price" class="form-label">Price:</label>
+                                <input type="text" asp-for="Price" class="form-control" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="CategoryId" class="form-label">Category:</label>
+                                <select class="form-select" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
+                                    <option selected value="0">Select category</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+
+                            <input type="hidden" asp-for="Id" />
+
+                            <button type="submit" class="btn btn-outline-primary">Save</button>
+                            <a asp-controller="UserArticles" asp-action="ArticleList" class="btn btn-outline-danger">Go back</a>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
