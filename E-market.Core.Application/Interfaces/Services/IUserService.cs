@@ -7,8 +7,8 @@ using E_market.Core.Application.ViewModels.Users;
 
 namespace E_market.Core.Application.Interfaces.Services
 {
-    public interface IUserService : IGenericService<UserViewModel, UserViewModel>
+    public interface IUserService : IGenericService<SaveUserViewModel, UserViewModel>
     {
-
+        Task<UserViewModel> Login(LoginUserViewModel loginVm);
     }
 }

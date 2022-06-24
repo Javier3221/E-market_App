@@ -1,4 +1,5 @@
-﻿using E_market.Core.Domain.Entities;
+﻿using E_market.Core.Application.ViewModels.Users;
+using E_market.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace E_market.Core.Application.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepositoryAsync<User>
     {
-
+        Task<User> LoginAsync(LoginUserViewModel entity);
     }
 }

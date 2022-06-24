@@ -26,5 +26,13 @@ namespace E_market.Infrastructure.Persistence.Repositories
             entity.Password = PasswordEcryption.ComputeSha256Hash(entity.Password);
             await base.AddAsync(entity);
         }
+        public async Task<User> LoginAsync(LoginUserViewModel entity)
+        {
+            string passwordEncrypted = PasswordEcryption.ComputeSha256Hash(entity.Password);
+            User user = await _dbContext.Set<User>()
+                .FirstOrDefaultAsync(user => user.UserName == entity.UserName && user.Password == passwordEncrypted);
+            return user;
+        }
+
     }
 }
