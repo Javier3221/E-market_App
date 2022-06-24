@@ -1,4 +1,5 @@
 ﻿using E_market.Core.Application.Interfaces.Services;
+using E_market.Core.Application.ViewModels.Articles;
 using E_market_OnionMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,15 +14,18 @@ namespace E_market_OnionMVC.Controllers
     public class HomeController : Controller
     {
         private readonly IArticleService _articleService;
+        private readonly ICategoryService _categoryService;
 
-        public HomeController(IArticleService articleService)
+        public HomeController(IArticleService articleService, ICategoryService categoryService)
         {
             _articleService = articleService;
+            _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(FilterArticleViewModel vm)
         {
-            return View(await _articleService.GetAllViewModel());
+            ViewBag.Categories = await _categoryService.GetAllViewModel();
+            return View(await _articleService.GetAllViewModelFiltered(vm));
         }
 
         public IActionResult Privacy()

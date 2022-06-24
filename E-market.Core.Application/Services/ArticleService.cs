@@ -84,11 +84,11 @@ namespace E_market.Core.Application.Services
             }).ToList(); 
         }
 
-        public async Task<List<GetArticleViewModel>> GetAllViewModelByCategory(int categoryId)
+        public async Task<List<GetArticleViewModel>> GetAllViewModelFiltered(FilterArticleViewModel filters)
         {
-            var articleList = await _articleRepository.GetAllByCategory(categoryId);
+            var articleList = await _articleRepository.GetAllWithIncludeAsync(new List<string> { "Category" });
 
-            return articleList.Select(article => new GetArticleViewModel
+            var listViewModel = articleList.Select(article => new GetArticleViewModel
             {
                 Name = article.Name,
                 ImgUrl = article.ImgUrl,
@@ -96,8 +96,22 @@ namespace E_market.Core.Application.Services
                 Price = article.Price,
                 //UserName =
                 Description = article.Description,
-                Category =  article.Category.Name
+                Category = article.Category.Name,
+                CategoryId = article.Category.Id
             }).ToList();
+
+            if (filters.CategoryList != null)
+            {
+                var filteredList = new List<GetArticleViewModel>();
+                foreach (int item in filters.CategoryList)
+                {
+                    var list = listViewModel.Where(article => article.CategoryId == item).ToList();
+                    filteredList.AddRange(list);
+                }
+                listViewModel = filteredList;
+            }
+
+            return listViewModel;
         }
     }
 }

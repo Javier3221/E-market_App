@@ -1,41 +1,62 @@
-﻿@model List<E_market.Core.Application.ViewModels.Articles.GetArticleViewModel>
+﻿@using E_market.Core.Application.ViewModels.Categories;
+@using E_market.Core.Application.ViewModels.Articles; 
+
+@model List<GetArticleViewModel>
 @{
     ViewData["Title"] = "Main Page";
 }
 
-<div class="nav-scroller bg-body shadow-sm mb-4">
-    <nav class="nav" aria-label="Secondary navigation">
-        <h5 class="navbar-text me-2">Filter by Category: </h5>
-        @for (int i = 0; i <= 10; i++)
-        {
-            <div class="form-check-inline">
-                <input class="form-check-input" type="checkbox" value="@i" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    checkbox #@i
-                </label>
+<div class="row">
+    <div class="col-3 ms-0">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-light">
+                <h4>Filter by</h4>
             </div>
-        }
-        <button class="btn btn-outline-primary ms-auto">Search</button>
-    </nav>
-</div>
-
-<div class="d-flex justify-content-lg-start gap-5">
-    <div class="row flex-fill">
-        @foreach (E_market.Core.Application.ViewModels.Articles.GetArticleViewModel article in Model)
-        {
-            <div class="col-sm-4">
-                <div class="card mb-2">
-                    <img src="@article.ImgUrl" class="card-img-top" width="300" height="250" alt="..." />
-                    <div class="card-body">
-                        <h5 class="card-title">@article.Name</h5>
-                        <p class="card-text">@article.Description</p>
-                        <ul class="list-group list-group-flush">
-                            <li class="fw-bold list-group-item">RD$ @article.Price</li>
-                            <li class="list-group-item text-info fw-bold">@article.Category</li>
-                        </ul>
-                    </div>
+            <form method="post" asp-controller="Home" asp-action="Index">
+                <div class="card-body">
+                    <p class="fw-bold">Category:</p>
+                    <button class="btn btn-outline-primary mb-3" type="submit">Filter</button>
+                    @foreach (CategoryViewModel category in ViewBag.Categories)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="@category.Id" id="check@(category.Id)" name="CategoryList">
+                            <label class="form-check-label" for="check@(category.Id)">
+                                @(category.Name)
+                            </label>
+                        </div>
+                    }
                 </div>
-            </div>
-        }
+            </form>
+        </div>
+    </div>
+
+    <div class="col-9 ms-auto">
+        <div class="d-flex justify-content-lg-start gap-5">
+            @if (Model.Count == 0 || Model == null)
+            {
+                <h4>There are no articles yet.</h4>
+            }
+            else
+            {
+                <div class="row flex-fill">
+                    @foreach (GetArticleViewModel article in Model)
+                    {
+                        <div class="col-sm-4">
+                            <div class="card mb-2">
+                                <img src="@article.ImgUrl" class="card-img-top" width="300" height="250" alt="..." />
+                                <div class="card-body">
+                                    <h5 class="card-title">@article.Name</h5>
+                                    <p class="card-text">@article.Description</p>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="fw-bold list-group-item">RD$ @article.Price</li>
+                                        <li class="list-group-item text-info fw-bold">@article.Category</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
 </div>

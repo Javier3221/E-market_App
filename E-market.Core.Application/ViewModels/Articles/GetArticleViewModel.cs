@@ -15,5 +15,7 @@ namespace E_market.Core.Application.ViewModels.Articles
         public string Description { get; set; }
         public string Category { get; set; }
         public string UserName { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }
