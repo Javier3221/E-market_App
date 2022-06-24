@@ -15,25 +15,25 @@ namespace E_market.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task AddAsync(Entity entity)
+        public virtual async Task AddAsync(Entity entity)
         {
             await _dbContext.Set<Entity>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Entity entity)
+        public virtual async Task UpdateAsync(Entity entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Entity entity)
+        public virtual async Task DeleteAsync(Entity entity)
         {
             _dbContext.Set<Entity>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Entity>> GetAllAsync()
+        public virtual async Task<List<Entity>> GetAllAsync()
         {
             return await _dbContext.Set<Entity>().ToListAsync();
         }
