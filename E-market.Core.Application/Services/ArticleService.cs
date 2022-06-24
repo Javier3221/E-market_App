@@ -80,7 +80,8 @@ namespace E_market.Core.Application.Services
                 Price = article.Price,
                 //UserName =
                 Description = article.Description,
-                Category = article.Category.Name
+                Category = article.Category.Name,
+                CategoryId = article.Category.Id
             }).ToList(); 
         }
 
