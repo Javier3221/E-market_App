@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using E_market.Core.Domain.Common;
 using E_market.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,26 @@ namespace E_market.Infrastructure.Persistence.Contexts
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.Created = DateTime.Now;
+                        entry.Entity.CreatedBy = "";
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.LastTimeModified = DateTime.Now;
+                        entry.Entity.LastModified = "";
+                        break;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
