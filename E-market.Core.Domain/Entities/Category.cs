@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_market.Core.Domain.Common;
 
 namespace E_market.Core.Domain.Entities
 {
-    public class Category
+    public class Category : AuditableBaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
