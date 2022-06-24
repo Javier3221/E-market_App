@@ -57,13 +57,13 @@ namespace E_market.Core.Application.Services
             var article = await _articleRepository.GetByIdAsync(id);
 
             SaveArticleViewModel vm = new();
-            article.Id = vm.Id;
-            article.Name = vm.Name;
-            article.ImgUrl = vm.ImgUrl;
-            article.Price = vm.Price;
-            article.UserId = vm.UserId;
-            article.Description = vm.Description;
-            article.CategoryId = vm.CategoryId;
+            vm.Id = article.Id;
+            vm.Name = article.Name;
+            vm.ImgUrl = article.ImgUrl;
+            vm.Price = article.Price;
+            vm.UserId = article.UserId;
+            vm.Description = article.Description;
+            vm.CategoryId = article.CategoryId;
 
             return vm;
         }
