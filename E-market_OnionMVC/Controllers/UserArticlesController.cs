@@ -3,6 +3,7 @@ using E_market.Core.Application.Interfaces.Services;
 using E_market.Core.Application.ViewModels.Articles;
 using E_market.Core.Application.ViewModels.Users;
 using E_market_OnionMVC.Models.Middlewares;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
