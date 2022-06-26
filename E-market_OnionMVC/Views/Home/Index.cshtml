@@ -14,17 +14,32 @@
             </div>
             <form method="post" asp-controller="Home" asp-action="Index">
                 <div class="card-body">
-                    <p class="fw-bold">Category:</p>
-                    <button class="btn btn-outline-primary mb-3" type="submit">Filter</button>
-                    @foreach (CategoryViewModel category in ViewBag.Categories)
-                    {
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="@category.Id" id="check@(category.Id)" name="CategoryList">
-                            <label class="form-check-label" for="check@(category.Id)">
-                                @(category.Name)
-                            </label>
-                        </div>
-                    }
+                    <div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="mb-2">
+                                    <p class="fw-bold">Name:</p>
+                                    <input class="form-control" placeholder="Search..." name="ArticleName"/>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <p class="fw-bold">Category:</p>
+                                @foreach (CategoryViewModel category in ViewBag.Categories)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="@category.Id" id="check@(category.Id)" name="CategoryList">
+                                        <label class="form-check-label" for="check@(category.Id)">
+                                            @(category.Name)
+                                        </label>
+                                    </div>
+                                }
+                            </li>
+                        </ul>
+
+                    <div class="d-flex justify-content-center mt-3">
+                        <button class="btn btn-outline-primary mb-3 flex-fill" type="submit">Filter</button>
+                    </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -52,6 +67,7 @@
                                         <li class="list-group-item text-info fw-bold">@article.Category</li>
                                     </ul>
                                 </div>
+                                <a class="stretched-link" asp-controller="Home" asp-action="ArticleDetails"></a>
                             </div>
                         </div>
                     }
