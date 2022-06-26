@@ -57,6 +57,12 @@ namespace E_market_OnionMVC.Controllers
             return View(loginVm);
         }
 
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Remove("user");
+            return RedirectToRoute(new { controller = "User", action = "Login" });
+        }
+
         public IActionResult Register()
         {
             return View(new SaveUserViewModel());
