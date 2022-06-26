@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace E_market.Core.Application.ViewModels.Articles
         public string Description { get; set; }
         public string Category { get; set; }
         public string UserName { get; set; }
+        public List<IFormFile> Files { get; set; }
 
         public int CategoryId { get; set; }
     }
