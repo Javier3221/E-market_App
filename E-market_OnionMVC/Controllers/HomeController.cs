@@ -34,5 +34,15 @@ namespace E_market_OnionMVC.Controllers
             ViewBag.Categories = await _categoryService.GetAllViewModel();
             return View(await _articleService.GetAllViewModelFiltered(vm));
         }
+
+        public async Task<IActionResult> ArticleDetails(int id)
+        {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Login" });
+            }
+
+            return View(await _articleService.GetByIdGetViewModel(id));
+        }
     }
 }
