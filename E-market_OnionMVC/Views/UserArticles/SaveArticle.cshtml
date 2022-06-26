@@ -15,14 +15,14 @@
                 <div class="card-body">
                     @if (Model.Categories == null || Model.Categories.Count == 0)
                     {
-                        <h4 class="fw-bold">You need to create at leasat one category first</h4>
+                        <h4 class="fw-bold">You need to create at least one category first</h4>
                     }
                     else
                     {
-                        <form method="post" asp-controller="UserArticles" asp-action="@(isEdit ? "Update" : "Create")">
+                        <form method="post" enctype="multipart/form-data" asp-controller="UserArticles" asp-action="@(isEdit ? "Update" : "Create")">
                             <div class="mb-3">
                                 <label asp-for="Name" class="form-label">Name:</label>
-                                <input type="text" asp-for="Name" class="form-control" />
+                                <input  asp-for="Name" class="form-control" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
 
@@ -33,14 +33,21 @@
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="ImgUrl" class="form-label">Image:</label>
-                                <input type="text" asp-for="ImgUrl" class="form-control" placeholder="https://examplePage/example.jpg" />
-                                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+                                <label asp-for="Files" class="form-label">Select images (max. 4):</label>
+                                @if (isEdit)
+                                {
+                                    <input asp-for="Files" class="form-control" multiple />
+                                }
+                                else 
+                                {
+                                <input asp-for="Files" class="form-control" required multiple />
+                                }
+                                <span asp-validation-for="Files" class="text-danger"></span>
                             </div>
 
                             <div class="mb-3">
                                 <label asp-for="Price" class="form-label">Price:</label>
-                                <input type="text" asp-for="Price" class="form-control" />
+                                <input asp-for="Price" class="form-control" />
                                 <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
 
