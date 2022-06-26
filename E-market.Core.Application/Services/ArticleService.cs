@@ -94,13 +94,13 @@ namespace E_market.Core.Application.Services
         {
             var articleList = await _articleRepository.GetAllWithIncludeAsync(new List<string> { "Category" });
 
-            var listViewModel = articleList.Select(article => new GetArticleViewModel
+            var listViewModel = articleList.Where(article => article.UserId != userViewModel.Id).Select(article => new GetArticleViewModel
             {
                 Name = article.Name,
                 ImgUrl = article.ImgUrl,
                 Id = article.Id,
                 Price = article.Price,
-                //UserName =
+                UserName = userViewModel.UserName,
                 Description = article.Description,
                 Category = article.Category.Name,
                 CategoryId = article.Category.Id
