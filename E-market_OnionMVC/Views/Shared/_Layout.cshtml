@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using E_market.Core.Application.Helpers;
+@using E_market.Core.Application.ViewModels.Users;
+@inject IHttpContextAccessor httpContextAccessor;
+@{ UserViewModel user = httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user"); }
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
