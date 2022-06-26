@@ -9,5 +9,6 @@ namespace E_market.Core.Application.ViewModels.Articles
     public class FilterArticleViewModel
     {
         public List<int>? CategoryList { get; set; }
+        public string ArticleName { get; set; }
     }
 }
