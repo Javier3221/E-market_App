@@ -10,7 +10,7 @@ namespace E_market.Core.Application.Interfaces.Services
         where SaveViewModel : class
         where GetViewModel : class
     {
-        Task Add(SaveViewModel vm);
+        Task<SaveViewModel> Add(SaveViewModel vm);
         Task Update(SaveViewModel vm);
         Task Delete(int id);
         Task<SaveViewModel> GetByIdSaveViewModel(int id);

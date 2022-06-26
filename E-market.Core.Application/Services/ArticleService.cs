@@ -26,22 +26,33 @@ namespace E_market.Core.Application.Services
             _userService = userService;
         }
 
-        public async Task Add(SaveArticleViewModel vm)
+        public async Task<SaveArticleViewModel> Add(SaveArticleViewModel vm)
         {
             Article article = new();
             article.Name = vm.Name;
-            article.ImgUrl = vm.ImgUrl;
             article.Price = vm.Price;
             article.UserId = userViewModel.Id;
             article.Description = vm.Description;
             article.CategoryId = vm.CategoryId;
 
-            await _articleRepository.AddAsync(article);
+            article = await _articleRepository.AddAsync(article);
+
+            SaveArticleViewModel articleVm = new();
+
+            articleVm.Id = article.Id;
+            articleVm.Name = article.Name;
+            articleVm.ImgUrl = article.ImgUrl;
+            articleVm.Price = article.Price;
+            articleVm.UserId = article.UserId;
+            articleVm.Description = article.Description;
+            articleVm.CategoryId = article.CategoryId;
+
+            return articleVm;
         }
 
         public async Task Update(SaveArticleViewModel vm)
         {
-            Article article = new();
+            Article article = await _articleRepository.GetByIdAsync(vm.Id);
             article.Id = vm.Id;
             article.Name = vm.Name;
             article.ImgUrl = vm.ImgUrl;
