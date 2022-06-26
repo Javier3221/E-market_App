@@ -37,4 +37,8 @@
     <ProjectReference Include="..\E-market.Infrastructure.Persistence\E-market.Infrastructure.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\Articles\" />
+  </ItemGroup>
+
 </Project>
