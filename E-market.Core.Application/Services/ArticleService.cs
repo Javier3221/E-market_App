@@ -15,13 +15,15 @@ namespace E_market.Core.Application.Services
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserService _userService;
         private readonly UserViewModel userViewModel;
 
-        public ArticleService(IArticleRepository articleRepository, IHttpContextAccessor httpContextAccessor)
+        public ArticleService(IArticleRepository articleRepository, IHttpContextAccessor httpContextAccessor, IUserService userService)
         {
             _articleRepository = articleRepository;
             _httpContextAccessor = httpContextAccessor;
             userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
+            _userService = userService;
         }
 
         public async Task Add(SaveArticleViewModel vm)
@@ -73,6 +75,22 @@ namespace E_market.Core.Application.Services
             return vm;
         }
 
+        public async Task<GetArticleViewModel> GetByIdGetViewModel(int id)
+        {
+            var article = await _articleRepository.GetByIdAsync(id);
+
+            GetArticleViewModel vm = new();
+            vm.Id = article.Id;
+            vm.Name = article.Name;
+            vm.ImgUrl = article.ImgUrl;
+            vm.Price = article.Price;
+            vm.UserName = _userService.GetByIdSaveViewModel(article.UserId).Result.UserName;
+            vm.Description = article.Description;
+            vm.CategoryId = article.CategoryId;
+
+            return vm;
+        }
+
         public async Task<List<GetArticleViewModel>> GetAllViewModel()
         {
             var articleList = await _articleRepository.GetAllWithIncludeAsync(new List<string> { "Category" });
@@ -100,7 +118,7 @@ namespace E_market.Core.Application.Services
                 ImgUrl = article.ImgUrl,
                 Id = article.Id,
                 Price = article.Price,
-                UserName = userViewModel.UserName,
+                UserName = _userService.GetByIdSaveViewModel(article.UserId).Result.UserName,
                 Description = article.Description,
                 Category = article.Category.Name,
                 CategoryId = article.Category.Id

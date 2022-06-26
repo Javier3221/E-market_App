@@ -10,5 +10,6 @@ namespace E_market.Core.Application.Interfaces.Services
     public interface IArticleService : IGenericService<SaveArticleViewModel, GetArticleViewModel>
     {
         Task<List<GetArticleViewModel>> GetAllViewModelFiltered(FilterArticleViewModel filters);
+        Task<GetArticleViewModel> GetByIdGetViewModel(int id);
     }
 }
