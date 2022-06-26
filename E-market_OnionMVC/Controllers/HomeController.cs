@@ -1,6 +1,7 @@
 ﻿using E_market.Core.Application.Interfaces.Services;
 using E_market.Core.Application.ViewModels.Articles;
 using E_market_OnionMVC.Models;
+using E_market_OnionMVC.Models.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,28 +16,23 @@ namespace E_market_OnionMVC.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
-
-        public HomeController(IArticleService articleService, ICategoryService categoryService)
+        private readonly ValidateUserSession _validateUserSession;
+        public HomeController(IArticleService articleService, ICategoryService categoryService, ValidateUserSession validateUserSession)
         {
             _articleService = articleService;
             _categoryService = categoryService;
+            _validateUserSession = validateUserSession;
         }
 
         public async Task<IActionResult> Index(FilterArticleViewModel vm)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Login" });
+            }
+
             ViewBag.Categories = await _categoryService.GetAllViewModel();
             return View(await _articleService.GetAllViewModelFiltered(vm));
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
