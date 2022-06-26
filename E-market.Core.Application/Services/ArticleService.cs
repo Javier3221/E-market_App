@@ -106,10 +106,10 @@ namespace E_market.Core.Application.Services
         {
             var articleList = await _articleRepository.GetAllWithIncludeAsync(new List<string> { "Category" });
 
-            return articleList.Where(article => article.UserId == userViewModel.Id).Select(article => new GetArticleViewModel 
+            return articleList.Where(article => article.UserId == userViewModel.Id).Select(article => new GetArticleViewModel
             {
                 Name = article.Name,
-                ImgUrl = article.ImgUrl,
+                ImgUrl = GetMainImgUrl(article.ImgUrl),
                 Id = article.Id,
                 Price = article.Price,
                 UserName = userViewModel.UserName,
@@ -119,6 +119,14 @@ namespace E_market.Core.Application.Services
             }).ToList(); 
         }
 
+        private string GetMainImgUrl(string paths)
+        {
+            List<string> result = paths.Split(new char[] { ',' }).ToList();
+            string mainUrl = result[0];
+
+            return mainUrl;
+        }
+
         public async Task<List<GetArticleViewModel>> GetAllViewModelFiltered(FilterArticleViewModel filters)
         {
             var articleList = await _articleRepository.GetAllWithIncludeAsync(new List<string> { "Category" });
@@ -126,7 +134,7 @@ namespace E_market.Core.Application.Services
             var listViewModel = articleList.Where(article => article.UserId != userViewModel.Id).Select(article => new GetArticleViewModel
             {
                 Name = article.Name,
-                ImgUrl = article.ImgUrl,
+                ImgUrl = GetMainImgUrl(article.ImgUrl),
                 Id = article.Id,
                 Price = article.Price,
                 UserName = _userService.GetByIdSaveViewModel(article.UserId).Result.UserName,
