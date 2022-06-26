@@ -67,7 +67,7 @@
                                         <li class="list-group-item text-info fw-bold">@article.Category</li>
                                     </ul>
                                 </div>
-                                <a class="stretched-link" asp-controller="Home" asp-action="ArticleDetails"></a>
+                                <a class="stretched-link" asp-controller="Home" asp-action="ArticleDetails" asp-route-id="@(article.Id)"></a>
                             </div>
                         </div>
                     }
