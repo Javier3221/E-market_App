@@ -74,10 +74,6 @@ namespace E_market.Infrastructure.Persistence.Contexts
                 .HasMaxLength(75);
 
             modelBuilder.Entity<Article>()
-                .Property(article => article.ImgUrl)
-                .IsRequired();
-
-            modelBuilder.Entity<Article>()
                 .Property(article => article.Price)
                 .IsRequired();
 
