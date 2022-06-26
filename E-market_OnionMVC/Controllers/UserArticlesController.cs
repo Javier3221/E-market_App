@@ -6,6 +6,7 @@ using E_market_OnionMVC.Models.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -58,7 +59,12 @@ namespace E_market_OnionMVC.Controllers
                 return View("SaveArticle", vm);
             }
 
-            await _articleService.Add(vm);
+            SaveArticleViewModel articleVm = await _articleService.Add(vm);
+            if(articleVm != null && articleVm.Id != 0)
+            {
+                articleVm.ImgUrl = UploadFile(vm.Files, articleVm.Id);
+                await _articleService.Update(articleVm);
+            }
             return RedirectToRoute(new { controller = "UserArticles", action = "ArticleList" });
         }
 

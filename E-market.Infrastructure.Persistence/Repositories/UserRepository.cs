@@ -21,10 +21,10 @@ namespace E_market.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public override async Task AddAsync(User entity)
+        public override async Task<User> AddAsync(User entity)
         {
             entity.Password = PasswordEcryption.ComputeSha256Hash(entity.Password);
-            await base.AddAsync(entity);
+            return await base.AddAsync(entity);
         }
         public async Task<User> LoginAsync(LoginUserViewModel entity)
         {
