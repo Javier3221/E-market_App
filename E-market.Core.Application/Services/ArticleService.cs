@@ -1,22 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using E_market.Core.Application.Interfaces.Services;
 using E_market.Core.Application.Interfaces.Repositories;
 using E_market.Core.Application.ViewModels.Articles;
 using E_market.Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using E_market.Core.Application.ViewModels.Users;
+using E_market.Core.Application.Helpers;
 
 namespace E_market.Core.Application.Services
 {
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository _articleRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserViewModel userViewModel;
 
-        public ArticleService(IArticleRepository articleRepository)
+        public ArticleService(IArticleRepository articleRepository, IHttpContextAccessor httpContextAccessor)
         {
             _articleRepository = articleRepository;
+            _httpContextAccessor = httpContextAccessor;
+            userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
         }
 
         public async Task Add(SaveArticleViewModel vm)
@@ -25,7 +30,7 @@ namespace E_market.Core.Application.Services
             article.Name = vm.Name;
             article.ImgUrl = vm.ImgUrl;
             article.Price = vm.Price;
-            article.UserId = vm.UserId;
+            article.UserId = userViewModel.Id;
             article.Description = vm.Description;
             article.CategoryId = vm.CategoryId;
 
