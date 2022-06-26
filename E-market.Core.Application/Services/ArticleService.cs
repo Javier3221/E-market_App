@@ -106,7 +106,17 @@ namespace E_market.Core.Application.Services
                 CategoryId = article.Category.Id
             }).ToList();
 
-            if (filters.CategoryList != null)
+            if (filters.CategoryList != null && filters.ArticleName != null)
+            {
+                var filteredList = new List<GetArticleViewModel>();
+                foreach (int item in filters.CategoryList)
+                {
+                    var list = listViewModel.Where(article => article.CategoryId == item && article.Name.Contains(filters.ArticleName)).ToList();
+                    filteredList.AddRange(list);
+                }
+                listViewModel = filteredList;
+            }
+            else if (filters.CategoryList != null)
             {
                 var filteredList = new List<GetArticleViewModel>();
                 foreach (int item in filters.CategoryList)
@@ -115,6 +125,10 @@ namespace E_market.Core.Application.Services
                     filteredList.AddRange(list);
                 }
                 listViewModel = filteredList;
+            }
+            else if (filters.ArticleName != null)
+            {
+                listViewModel = listViewModel.Where(article => article.Name.Contains(filters.ArticleName)).ToList();
             }
 
             return listViewModel;
