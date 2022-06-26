@@ -108,5 +108,38 @@ namespace E_market_OnionMVC.Controllers
             await _articleService.Delete(id);
             return RedirectToRoute(new { controller = "UserArticles", action = "ArticleList" });
         }
+
+        private string UploadFile(List<IFormFile> files, int id)
+        {
+            string basePath = $"/images/Articles/{id}";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+
+            //create folder if it doesn't exists
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            List<string> pathList = new();
+            foreach (IFormFile file in files)
+            {
+                Guid guid = Guid.NewGuid();
+                FileInfo fileInfo = new(file.FileName);
+                string filename = guid + fileInfo.Extension;
+
+                string fileNameWithPath = Path.Combine(path, filename);
+
+                using(var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                pathList.Add($"{Path.Combine(basePath, filename)}");
+            }
+
+            string pathString = string.Join(",", pathList);
+
+            return pathString;
+        }
     }
 }
