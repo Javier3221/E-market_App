@@ -15,10 +15,11 @@ namespace E_market.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public virtual async Task AddAsync(Entity entity)
+        public virtual async Task<Entity> AddAsync(Entity entity)
         {
             await _dbContext.Set<Entity>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
+            return entity;
         }
 
         public virtual async Task UpdateAsync(Entity entity)
