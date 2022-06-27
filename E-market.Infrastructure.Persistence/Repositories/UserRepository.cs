@@ -34,5 +34,10 @@ namespace E_market.Infrastructure.Persistence.Repositories
             return user;
         }
 
+        public async Task<bool> FindUserNameAvailabilty(string userName)
+        {
+            bool IsAvailable = await _dbContext.Set<User>().FirstOrDefaultAsync(user => user.UserName == userName) == null;
+            return IsAvailable;
+        }
     }
 }
