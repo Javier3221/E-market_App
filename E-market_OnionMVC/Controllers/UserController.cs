@@ -81,6 +81,14 @@ namespace E_market_OnionMVC.Controllers
                 return View(UserVm);
             }
 
+            bool isAvailable = await _userService.FindUserNameAvailabilty(UserVm.UserName);
+
+            if (!isAvailable)
+            {
+                ModelState.AddModelError("userNameValidation", "This User Name exists already");
+                return View(UserVm);
+            }
+
             await _userService.Add(UserVm);
             return RedirectToRoute(new { controller = "User", action = "Login"});
         }
