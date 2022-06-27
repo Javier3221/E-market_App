@@ -14,12 +14,14 @@ namespace E_market_OnionMVC.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly IArticleService _articleService;
         private readonly ValidateUserSession _validateUserSession;
 
-        public CategoriesController(ICategoryService categoryService, ValidateUserSession validateUserSession)
+        public CategoriesController(ICategoryService categoryService, ValidateUserSession validateUserSession, IArticleService articleService)
         {
             _categoryService = categoryService;
             _validateUserSession = validateUserSession;
+            _articleService = articleService;
         }
         public async Task<IActionResult> CategoryList()
         {
@@ -28,6 +30,7 @@ namespace E_market_OnionMVC.Controllers
                 return RedirectToRoute(new { controller = "User", action = "Login" });
             }
 
+            ViewData["ArticleList"] = await _articleService.GetAllWithUser();
             return View(await _categoryService.GetAllViewModel());
         }
 
