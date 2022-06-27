@@ -95,6 +95,9 @@ namespace E_market_OnionMVC.Controllers
                 return View("SaveArticle", vm);
             }
 
+            SaveArticleViewModel saveVm = await _articleService.GetByIdSaveViewModel(vm.Id);
+            vm.ImgUrl = UploadFile(vm.Files, saveVm.Id, true, saveVm.ImgUrl);
+
             await _articleService.Update(vm);
             return RedirectToRoute(new { controller = "UserArticles", action = "ArticleList"});
         }
@@ -107,11 +110,37 @@ namespace E_market_OnionMVC.Controllers
             }
 
             await _articleService.Delete(id);
+
+            string basePath = $"/images/Articles/{id}";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo directory= new(path);
+                foreach(FileInfo file in directory.GetFiles())
+                {
+                    file.Delete();
+                }
+
+                foreach (DirectoryInfo folder in directory.GetDirectories())
+                {
+                    folder.Delete(true);
+                }
+
+                Directory.Delete(path);
+            }
+
             return RedirectToRoute(new { controller = "UserArticles", action = "ArticleList" });
         }
 
-        private string UploadFile(List<IFormFile> files, int id)
+        private string UploadFile(List<IFormFile> files, int id, bool isEditMode = false, string imageUrls = "")
         {
+            if (isEditMode && files == null)
+            {
+                string paths = string.Join(",", imageUrls);
+
+                return paths;
+            }
             string basePath = $"/images/Articles/{id}";
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
@@ -135,10 +164,27 @@ namespace E_market_OnionMVC.Controllers
                     file.CopyTo(stream);
                 }
 
-                pathList.Add($"{Path.Combine(basePath, filename)}");
+                pathList.Add($"{basePath}/{filename}");
             }
 
             string pathString = string.Join(",", pathList);
+
+            if (isEditMode)
+            {
+                List<string> oldPath = imageUrls.Split(',').ToList();
+
+                foreach (string item in oldPath)
+                {
+                    string[] oldImagePart = item.Split("/");
+                    string oldImageName = oldImagePart[^1];
+                    string completeImageOldPath = Path.Combine(path, oldImageName);
+
+                    if (System.IO.File.Exists(completeImageOldPath))
+                    {
+                        System.IO.File.Delete(completeImageOldPath);
+                    }
+                }
+            }
 
             return pathString;
         }
