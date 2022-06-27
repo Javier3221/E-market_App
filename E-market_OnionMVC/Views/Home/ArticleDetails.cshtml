@@ -9,32 +9,40 @@
         <div class="carousel-item active">
             <img src="@Model.ImgUrl" class="d-block m-auto" style="max-height: 548.88px" alt="...">
         </div>
-        <div class="carousel-item">
-            <img src="https://i.redd.it/jeuusd992wd41.jpg" class="d-block m-auto" style="max-height: 548.88px" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="https://i.pinimg.com/originals/dc/ab/b7/dcabb7fbb2f763d680d20a3d228cc6f9.jpg" class="d-block m-auto" style="max-height: 548.88px" alt="...">
-        </div>
+        @for (int i = 1; i < Model.FilePaths.Count; i++)
+        {
+            <div class="carousel-item">
+                <img src="@Model.FilePaths[i]" class="d-block m-auto" style="max-height: 548.88px" alt="...">
+            </div>
+        }
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+    @if (Model.FilePaths.Count > 1)
+    {
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    }
 </div>
 
 <div class="container d-flex mt-4">
     <div>
         <h2 class="fw-bold">@Model.Name</h2>
         <p>@(Model.Description)</p>
+        <h4 class="text-info">@Model.Category</></h4>
     </div>
     <div class="flex-shrink-0 ms-auto">
         <h4>Price: RD$ @Model.Price</h4>
-        <h5>Published by: <strong>@Model.UserName</strong></h5>
-        <p>Mas vainas aqui</p>
-        <p>y aqui menos vainas</p>
+        <h5>Published by: <strong>@Model.User.UserName</strong></h5>
+        <p>Published on: @($"{Model.DatePublished.Day}/{Model.DatePublished.Month}/{Model.DatePublished.Year}")</p>
+        <div>
+            <h3>Publisher's contact information:</h3>
+            <p>Email: @Model.User.Email</p>
+            <p>Phone: @Model.User.Phone</p>
+        </div>
     </div>
 </div>
