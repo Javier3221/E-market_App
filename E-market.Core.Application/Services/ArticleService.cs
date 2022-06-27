@@ -57,7 +57,7 @@ namespace E_market.Core.Application.Services
             article.Name = vm.Name;
             article.ImgUrl = vm.ImgUrl;
             article.Price = vm.Price;
-            article.UserId = vm.UserId;
+            article.UserId = userViewModel.Id;
             article.Description = vm.Description;
             article.CategoryId = vm.CategoryId;
 
@@ -95,9 +95,10 @@ namespace E_market.Core.Application.Services
             vm.Name = article.Name;
             vm.ImgUrl = article.ImgUrl;
             vm.Price = article.Price;
-            vm.UserName = _userService.GetByIdSaveViewModel(article.UserId).Result.UserName;
+            vm.User = _userService.GetByIdSaveViewModel(article.UserId).Result;
             vm.Description = article.Description;
             vm.CategoryId = article.CategoryId;
+            vm.DatePublished = article.Created.Date;
 
             return vm;
         }
@@ -112,14 +113,14 @@ namespace E_market.Core.Application.Services
                 ImgUrl = GetMainImgUrl(article.ImgUrl),
                 Id = article.Id,
                 Price = article.Price,
-                UserName = userViewModel.UserName,
+                UserId = userViewModel.Id,
                 Description = article.Description,
                 Category = article.Category.Name,
                 CategoryId = article.Category.Id
             }).ToList(); 
         }
 
-        private string GetMainImgUrl(string paths)
+        public string GetMainImgUrl(string paths)
         {
             List<string> result = paths.Split(new char[] { ',' }).ToList();
             string mainUrl = result[0];
@@ -137,7 +138,7 @@ namespace E_market.Core.Application.Services
                 ImgUrl = GetMainImgUrl(article.ImgUrl),
                 Id = article.Id,
                 Price = article.Price,
-                UserName = _userService.GetByIdSaveViewModel(article.UserId).Result.UserName,
+                User = _userService.GetByIdSaveViewModel(article.UserId).Result,
                 Description = article.Description,
                 Category = article.Category.Name,
                 CategoryId = article.Category.Id
