@@ -7,12 +7,21 @@ using System.Threading.Tasks;
 using E_market.Core.Domain.Common;
 using E_market.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using E_market.Core.Application.Helpers;
+using Microsoft.AspNetCore.Http;
+using E_market.Core.Application.ViewModels.Users;
 
 namespace E_market.Infrastructure.Persistence.Contexts
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {  }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserViewModel _userViewModel;
+        public ApplicationContext(DbContextOptions<ApplicationContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
+        }
 
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -26,11 +35,11 @@ namespace E_market.Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy = "";
+                        entry.Entity.CreatedBy = _userViewModel.UserName;
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastTimeModified = DateTime.Now;
-                        entry.Entity.LastModified = "";
+                        entry.Entity.LastModified = _userViewModel.UserName;
                         break;
                 }
             }
