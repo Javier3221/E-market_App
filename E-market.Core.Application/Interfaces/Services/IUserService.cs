@@ -10,5 +10,6 @@ namespace E_market.Core.Application.Interfaces.Services
     public interface IUserService : IGenericService<SaveUserViewModel, UserViewModel>
     {
         Task<UserViewModel> Login(LoginUserViewModel loginVm);
+        Task<bool> FindUserNameAvailabilty(string userName);
     }
 }

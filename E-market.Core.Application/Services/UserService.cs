@@ -116,5 +116,10 @@ namespace E_market.Core.Application.Services
 
             return vm;
         }
+
+        public async Task<bool> FindUserNameAvailabilty(string userName)
+        {
+            return await _userRepository.FindUserNameAvailabilty(userName);
+        }
     }
 }

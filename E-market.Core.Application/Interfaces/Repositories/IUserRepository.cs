@@ -11,5 +11,6 @@ namespace E_market.Core.Application.Interfaces.Repositories
     public interface IUserRepository : IGenericRepositoryAsync<User>
     {
         Task<User> LoginAsync(LoginUserViewModel entity);
+        Task<bool> FindUserNameAvailabilty(string userName);
     }
 }
