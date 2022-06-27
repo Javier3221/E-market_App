@@ -171,5 +171,23 @@ namespace E_market.Core.Application.Services
 
             return listViewModel;
         }
+
+        public async Task<List<GetArticleViewModel>> GetAllWithUser()
+        {
+            var articleList = await _articleRepository.GetAllWithIncludeAsync(new List<string> { "Category" });
+
+            return articleList.Select(article => new GetArticleViewModel
+            {
+                Name = article.Name,
+                ImgUrl = GetMainImgUrl(article.ImgUrl),
+                Id = article.Id,
+                Price = article.Price,
+                UserId = userViewModel.Id,
+                Description = article.Description,
+                Category = article.Category.Name,
+                CategoryId = article.Category.Id,
+                User = _userService.GetByIdSaveViewModel(article.UserId).Result
+            }).ToList();
+        }
     }
 }

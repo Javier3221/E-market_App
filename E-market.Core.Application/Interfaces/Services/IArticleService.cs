@@ -11,5 +11,7 @@ namespace E_market.Core.Application.Interfaces.Services
     {
         Task<List<GetArticleViewModel>> GetAllViewModelFiltered(FilterArticleViewModel filters);
         Task<GetArticleViewModel> GetByIdGetViewModel(int id);
+        string GetMainImgUrl(string paths);
+        Task<List<GetArticleViewModel>> GetAllWithUser();
     }
 }
