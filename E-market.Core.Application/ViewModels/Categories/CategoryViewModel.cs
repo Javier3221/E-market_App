@@ -15,5 +15,6 @@ namespace E_market.Core.Application.ViewModels.Categories
         [Required(ErrorMessage = "You need to describe what is this category")]
         public string Description { get; set; }
         public int ArticleCount { get; set; }
+        public string UserName { get; set; }
     }
 }

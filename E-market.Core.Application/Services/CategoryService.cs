@@ -72,7 +72,8 @@ namespace E_market.Core.Application.Services
                 Name = category.Name,
                 Id = category.Id,
                 Description = category.Description,
-                ArticleCount = category.Articles.Count()
+                ArticleCount = category.Articles.Count(),
+                UserName = category.CreatedBy
             }).ToList();
         }
     }
