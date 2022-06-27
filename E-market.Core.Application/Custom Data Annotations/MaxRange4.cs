@@ -13,9 +13,13 @@ namespace E_market.Core.Application.Custom_Data_Annotations
         public override bool IsValid(object value)
         {
             var list = value as IList;
-            if (list != null)
+            if (list == null)
             {
-                return list.Count <= 4;
+                return true;
+            }
+            else if (list != null)
+            {
+                return list.Count <= 4 && list.Count > 0;
             }
             return false;
         }
