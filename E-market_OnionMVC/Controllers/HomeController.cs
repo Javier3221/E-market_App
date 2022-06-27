@@ -42,7 +42,12 @@ namespace E_market_OnionMVC.Controllers
                 return RedirectToRoute(new { controller = "User", action = "Login" });
             }
 
-            return View(await _articleService.GetByIdGetViewModel(id));
+            GetArticleViewModel getVm = await _articleService.GetByIdGetViewModel(id);
+            getVm.FilePaths = getVm.ImgUrl.Split(',').ToList();
+            getVm.ImgUrl = _articleService.GetMainImgUrl(getVm.ImgUrl);
+            getVm.Category = _categoryService.GetByIdSaveViewModel(getVm.CategoryId).Result.Name;
+
+            return View(getVm);
         }
     }
 }
