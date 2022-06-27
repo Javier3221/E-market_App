@@ -34,6 +34,7 @@
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
+                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                             <label asp-for="UserName" class="form-label">User Name:</label>
                             <input asp-for="UserName" class="form-control" />
                             <span asp-validation-for="UserName" class="text-danger"></span>
