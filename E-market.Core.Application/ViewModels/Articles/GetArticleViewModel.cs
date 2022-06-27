@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using E_market.Core.Application.ViewModels.Users;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,11 @@ namespace E_market.Core.Application.ViewModels.Articles
         public double Price { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
-        public string UserName { get; set; }
-        public List<IFormFile> Files { get; set; }
+        public SaveUserViewModel User { get; set; }
+        public int UserId { get; set; }
+        public List<string> FilePaths { get; set; }
 
+        public DateTime DatePublished { get; set; }
         public int CategoryId { get; set; }
     }
 }
